@@ -1,0 +1,33 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "react-template.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
+{{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1beta1
+{{- else -}}
+apiVersion: extensions/v1beta1
+{{- end }}
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "react-template.labels" . | nindent 4 }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.class: public-iks-k8s-nginx
+    nginx.ingress.kubernetes.io/connection-proxy-header: keep-alive
+    nginx.org/client-max-body-size: 100m
+    nginx.org/redirect-to-https: 'true'
+spec:
+  tls:
+    - hosts: 
+      - "{{.Values.ingress.host}}"
+      secretName: {{ .Values.ingress.secretName }}
+  rules:
+    - host: "{{.Values.ingress.host}}"
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: {{ $svcPort }}
+{{- end }}            

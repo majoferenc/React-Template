@@ -1,0 +1,17 @@
+{
+  "common": {
+    "applicationName": "React Template",
+    "applicationNameShort": "React"
+  },
+  "footer": {
+    "copyrightLabel": "© 2021"
+  },
+  "login": {
+    "emailLabel": "Email",
+    "emailPlaceholder": "Seine Email",
+    "passwordLabel": "Kennzeichen",
+    "passwordPlaceholder": "Seine Kennzeichen",
+    "loginButton": "Anmelden"
+  }
+}
+  
